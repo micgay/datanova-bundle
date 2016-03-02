@@ -1,0 +1,21 @@
+{
+    "name": "florianajir/data-nova-bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Florian Ajir",
+            "email": "florianajir@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/symfony": "3.0.*",
+        "guzzlehttp/guzzle": "^6.1",
+        "symfony/monolog-bundle": "^2.8"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^3.0"
+    }
+}

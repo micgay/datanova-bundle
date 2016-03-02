@@ -1,0 +1,3 @@
+data_nova_homepage:
+    path:     /
+    defaults: { _controller: DataNOVABundle:Default:index }
