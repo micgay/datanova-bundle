@@ -1,34 +1,25 @@
 parameters:
-    data_nova.server_url: https://datanova.laposte.fr/
-    data_nova.public_key: 75a7e49aa0b6470d9f2c3d1472869851
-    data_nova.secret_key: 3ba2263b044349ba9971df1db2062464
-    data_nova.http_client.class:   GuzzleHttp\Client
-    data_nova.records.class:       OpenData\LaPoste\DataNOVABundle\Domain\RecordsSearch\Records
-    data_nova.authenticator.class: OpenData\LaPoste\DataNOVABundle\Domain\Authenticator
+    data_nova.server_url: http://datanova.laposte.fr/
+    data_nova.api.version: '1.0'
+    data_nova.client.timeout: 2.0
 
 services:
-#    data_nova.example:
-#        class: OpenData\LaPoste\DataNOVABundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
-
     data_nova.http_client:
         class: GuzzleHttp\Client
         arguments:
-            - { 'base_uri': %data_nova.server_url%, 'http_errors': false }
+            - 'base_uri': '%data_nova.server_url%'
+            - 'timeout': '%data_nova.client.timeout'
+            - 'http_errors': false
 
-    data_nova.records:
-        class: %data_nova.records.class%
+    data_nova.provider.records:
+        class: LaPoste\DataNovaBundle\Provider\Records
         arguments:
-            - @data_nova.http_client
-            - @data_nova.authenticator
+            - '@data_nova.http_client'
+            - '%data_nova.api.version%'
         calls:
-            - ['setLogger', [@?logger]]
+            - ['setLogger', ['@?logger']]
 
-    data_nova.authenticator:
-        class: %data_nova.authenticator.class%
+    data_nova.service.records.codes_postaux:
+        class: LaPoste\DataNovaBundle\Service\Records\CodesPostaux
         arguments:
-            - @data_nova.http_client
-            - %data_nova.public_key%
-            - %data_nova.secret_key%
-        calls:
-            - ['setLogger', [@?logger]]
+            - '@data_nova.provider.records'

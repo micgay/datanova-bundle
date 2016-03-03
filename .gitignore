@@ -9,3 +9,6 @@
 
 # Composer PHAR
 /composer.phar
+
+# IDE prefs
+/.idea/
