@@ -1,6 +1,6 @@
 <?php
 
-namespace LaPoste\DataNovaBundle\Model\Records;
+namespace Laposte\DataNovaBundle\Model\Records;
 
 class Search
 {

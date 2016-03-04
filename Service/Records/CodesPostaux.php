@@ -1,9 +1,9 @@
 <?php
 
-namespace LaPoste\DataNovaBundle\Service\Records;
+namespace Laposte\DataNovaBundle\Service\Records;
 
-use LaPoste\DataNovaBundle\Model\Records\Search;
-use LaPoste\DataNovaBundle\Provider\Records;
+use Laposte\DataNovaBundle\Model\Records\Search;
+use Laposte\DataNovaBundle\Provider\Records;
 
 class CodesPostaux
 {
@@ -105,13 +105,15 @@ class CodesPostaux
      *
      * @return array
      */
-    public static function listResults(array $response, $facetName = self::FIELD_CITY_NAME)
+    public static function listResults($response, $facetName = self::FIELD_CITY_NAME)
     {
         $parsed = array();
-        foreach ($response['records'] as $record) {
-            $value = $record['fields'][$facetName];
-            if (false === array_search($value, $parsed)) {
-                $parsed[] = $value;
+        if (false === empty($response)) {
+            foreach ($response['records'] as $record) {
+                $value = $record['fields'][$facetName];
+                if (false === array_search($value, $parsed)) {
+                    $parsed[] = $value;
+                }
             }
         }
 

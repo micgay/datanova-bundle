@@ -1,10 +1,9 @@
 <?php
 
-namespace LaPoste\DataNovaBundle\Controller;
+namespace Laposte\DataNovaBundle\Controller;
 
-use LaPoste\DataNovaBundle\Service\Records\CodesPostaux;
+use Laposte\DataNovaBundle\Service\Records\CodesPostaux;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostalCodesController extends Controller

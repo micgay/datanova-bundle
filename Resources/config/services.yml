@@ -1,24 +1,19 @@
 parameters:
-    data_nova.server_url: http://datanova.laposte.fr/
+    data_nova.server_url: http://datanova.laposte.fr
     data_nova.api.version: '1.0'
     data_nova.client.timeout: 3.0
 
 services:
-    data_nova.http_client:
-        class: GuzzleHttp\Client
-        arguments:
-            - 'base_uri': '%data_nova.server_url%'
-
     data_nova.provider.records:
-        class: LaPoste\DataNovaBundle\Provider\Records
+        class: Laposte\DataNovaBundle\Provider\Records
         arguments:
-            - '@data_nova.http_client'
+            - '%data_nova.server_url%'
             - '%data_nova.api.version%'
         calls:
             - ['setLogger', ['@?logger']]
-            - ['setConfig', [{ 'timeout': '%data_nova.client.timeout%', 'http_errors': false }]]
+            - ['setTimeout', ['%data_nova.client.timeout%']]
 
     data_nova.service.records.codes_postaux:
-        class: LaPoste\DataNovaBundle\Service\Records\CodesPostaux
+        class: Laposte\DataNovaBundle\Service\Records\CodesPostaux
         arguments:
             - '@data_nova.provider.records'
