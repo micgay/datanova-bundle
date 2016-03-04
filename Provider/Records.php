@@ -4,27 +4,27 @@ namespace LaPoste\DataNovaBundle\Provider;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\TransferStats;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Records
 {
+    /** Records API endpoint */
     const API_ENDPOINT = '/api/records';
 
-    /**
-     * @var Client
-     */
+    /** @var Client */
     protected $client;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $url;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     protected $logger;
+
+    /** @var array */
+    protected $config;
 
     /**
      * @param Client $client Guzzle http client
@@ -34,6 +34,14 @@ class Records
     {
         $this->client = $client;
         $this->url = sprintf('%s/%s', self::API_ENDPOINT, $apiVersion);
+    }
+
+    /**
+     * @param array $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
     }
 
     /**
@@ -56,28 +64,79 @@ class Records
      */
     public function get($operation, $parameters = array())
     {
-        if ($this->logger) {
-            $this->logger->debug("Records $operation", $parameters);
-        }
+        $this->debug("Records $operation", $parameters);
+        $result = null;
+        $config = $this->config;
+        $config = $this->setTransferTimeLog($config);
+        $config['query'] = $parameters;
         $uri = sprintf('%s%s/', $this->url, $operation);
-        $config = array(
-            'http_errors' => false,
-            'query' => $parameters
-        );
-        $response = $this->client->get($uri, $config);
-        switch ($response->getStatusCode()) {
-            case 400:
-                if ($this->logger) {
-                    $this->logger->error('Bad request', $parameters);
-                }
-                break;
-            case 404:
-                if ($this->logger) {
-                    $this->logger->error('Not found', $parameters);
-                }
-                break;
+        try {
+            $response = $this->client->get($uri, $config);
+            if (200 === $response->getStatusCode()) {
+                $result = $response->getBody()->getContents();
+            } else {
+                $this->logResponseError($response, $config);
+            }
+        } catch (Exception $exception) {
+            $this->debug($exception->getTraceAsString());
+            $this->error($exception->getMessage(), $config);
         }
 
-        return $response->getBody()->getContents();
+        return $result;
+    }
+
+    /**
+     * @param string $message
+     * @param array $context
+     */
+    private function debug($message, $context = array())
+    {
+        if ($this->logger) {
+            $this->logger->debug($message, $context);
+        }
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    private function setTransferTimeLog($config = array())
+    {
+        if ($this->logger) {
+            $config['on_stats'] = function (TransferStats $stats) {
+                $this->logger->debug(sprintf('Transfer time: %.3f sec', $stats->getTransferTime()));
+            };
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param $config
+     */
+    private function logResponseError(ResponseInterface $response, $config)
+    {
+        if ($this->logger) {
+            $log = sprintf(
+                '%d %s: %s',
+                $response->getStatusCode(),
+                $response->getReasonPhrase(),
+                $response->getBody()->getContents()
+            );
+            $this->logger->error($log, $config);
+        }
+    }
+
+    /**
+     * @param string $message
+     * @param array $context
+     */
+    private function error($message, $context = array())
+    {
+        if ($this->logger) {
+            $this->logger->error($message, $context);
+        }
     }
 }
