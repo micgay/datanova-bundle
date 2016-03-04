@@ -4,6 +4,6 @@ namespace LaPoste\DataNovaBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class DataNovaBundle extends Bundle
+class LaPosteDataNovaBundle extends Bundle
 {
 }
