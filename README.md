@@ -46,3 +46,15 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+Step3: Using proxy API
+----------------------
+
+To use the bundle proxy API, import the bundle routing file 
+in the `app/routing.yml` file of your project:
+
+```yml
+data_nova:
+    resource: "@LaposteDatanovaBundle/Resources/config/routing.yml"
+    prefix:   /api
+```
