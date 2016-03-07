@@ -1,6 +1,6 @@
 {
   "name": "florianajir/datanova-bundle",
-  "description": "LaPoste DataNOVA OpenData API client - symfony bundle",
+  "description": "LaPoste DataNOVA OpenData API client and proxy",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
