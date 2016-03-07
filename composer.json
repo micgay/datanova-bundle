@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Laposte\\Datanova\\": "src/Laposte/Datanova"
+      "": "src/"
     }
   }
 }
