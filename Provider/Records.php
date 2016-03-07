@@ -1,21 +1,13 @@
 <?php
-namespace LaPoste\DataNovaBundle\Provider;
+namespace Laposte\DatanovaBundle\Provider;
 
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\TransferStats;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Records
 {
     /** Records API endpoint */
     const API_ENDPOINT = '/api/records';
-
-    /** @var Client */
-    protected $client;
 
     /** @var string */
     protected $url;
@@ -23,25 +15,24 @@ class Records
     /** @var LoggerInterface */
     protected $logger;
 
-    /** @var array */
-    protected $config;
+    /** @var float */
+    protected $timeout;
 
     /**
-     * @param Client $client Guzzle http client
+     * @param string $server
      * @param string $apiVersion
      */
-    public function __construct(Client $client, $apiVersion)
+    public function __construct($server, $apiVersion)
     {
-        $this->client = $client;
-        $this->url = sprintf('%s/%s', self::API_ENDPOINT, $apiVersion);
+        $this->url = sprintf('%s%s/%s', $server, self::API_ENDPOINT, $apiVersion);
     }
 
     /**
-     * @param array $config
+     * @param float $timeout
      */
-    public function setConfig($config)
+    public function setTimeout($timeout)
     {
-        $this->config = $config;
+        $this->timeout = $timeout;
     }
 
     /**
@@ -66,20 +57,34 @@ class Records
     {
         $this->debug("Records $operation", $parameters);
         $result = null;
-        $config = $this->config;
-        $config = $this->setTransferTimeLog($config);
-        $config['query'] = $parameters;
-        $uri = sprintf('%s%s/', $this->url, $operation);
+        $url = sprintf('%s%s/?%s', $this->url, $operation, http_build_query($parameters));
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $url,
+        ));
+        if (isset($this->timeout)) {
+            curl_setopt($curl, CURLOPT_TIMEOUT, $this->timeout);
+        }
         try {
-            $response = $this->client->get($uri, $config);
-            if (200 === $response->getStatusCode()) {
-                $result = $response->getBody()->getContents();
+            $response = curl_exec($curl);
+            if (!$response) {
+                $this->error('Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl));
             } else {
-                $this->logResponseError($response, $config);
+                $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                $time = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
+                $this->logTransferTime($time);
+                if (200 === $status) {
+                    $result = $response;
+                } else {
+                    $this->debug('target:  '.$url);
+                    $this->logResponseError($status, $response, $parameters);
+                }
             }
+            curl_close($curl);
         } catch (Exception $exception) {
             $this->debug($exception->getTraceAsString());
-            $this->error($exception->getMessage(), $config);
+            $this->error($exception->getMessage());
         }
 
         return $result;
@@ -97,35 +102,31 @@ class Records
     }
 
     /**
-     * @param array $config
+     * @param string $time
      *
      * @return array
      */
-    private function setTransferTimeLog($config = array())
+    private function logTransferTime($time)
     {
         if ($this->logger) {
-            $config['on_stats'] = function (TransferStats $stats) {
-                $this->logger->debug(sprintf('Transfer time: %.3f sec', $stats->getTransferTime()));
-            };
+            $this->logger->debug(sprintf('Transfer time: %.3f sec', $time));
         }
-
-        return $config;
     }
 
     /**
-     * @param ResponseInterface $response
-     * @param $config
+     * @param int $status
+     * @param string $response
+     * @param array $parameters
      */
-    private function logResponseError(ResponseInterface $response, $config)
+    private function logResponseError($status, $response, $parameters)
     {
         if ($this->logger) {
             $log = sprintf(
-                '%d %s: %s',
-                $response->getStatusCode(),
-                $response->getReasonPhrase(),
-                $response->getBody()->getContents()
+                '%d: %s',
+                $status,
+                $response
             );
-            $this->logger->error($log, $config);
+            $this->logger->error($log, $parameters);
         }
     }
 
