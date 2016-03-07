@@ -20,7 +20,10 @@
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "Laposte\\DatanovaBundle": ""
     }
+  },
+  "config": {
+    "bin-dir": "bin"
   }
 }
