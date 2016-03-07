@@ -1,9 +1,8 @@
 <?php
-namespace Laposte\DataNovaBundle\Provider;
+namespace Laposte\DatanovaBundle\Provider;
 
 use Exception;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Records
 {

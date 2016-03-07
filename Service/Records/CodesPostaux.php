@@ -1,9 +1,9 @@
 <?php
 
-namespace Laposte\DataNovaBundle\Service\Records;
+namespace Laposte\DatanovaBundle\Service\Records;
 
-use Laposte\DataNovaBundle\Model\Records\Search;
-use Laposte\DataNovaBundle\Provider\Records;
+use Laposte\DatanovaBundle\Model\Records\Search;
+use Laposte\DatanovaBundle\Provider\Records;
 
 class CodesPostaux
 {

@@ -5,7 +5,7 @@ parameters:
 
 services:
     data_nova.provider.records:
-        class: Laposte\DataNovaBundle\Provider\Records
+        class: Laposte\DatanovaBundle\Provider\Records
         arguments:
             - '%data_nova.server_url%'
             - '%data_nova.api.version%'
@@ -14,6 +14,6 @@ services:
             - ['setTimeout', ['%data_nova.client.timeout%']]
 
     data_nova.service.records.codes_postaux:
-        class: Laposte\DataNovaBundle\Service\Records\CodesPostaux
+        class: Laposte\DatanovaBundle\Service\Records\CodesPostaux
         arguments:
             - '@data_nova.provider.records'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laposte\DataNovaBundle\DependencyInjection;
+namespace Laposte\DatanovaBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

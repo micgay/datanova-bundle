@@ -1,8 +1,8 @@
 <?php
 
-namespace Laposte\DataNovaBundle\Controller;
+namespace Laposte\DatanovaBundle\Controller;
 
-use Laposte\DataNovaBundle\Service\Records\CodesPostaux;
+use Laposte\DatanovaBundle\Service\Records\CodesPostaux;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
