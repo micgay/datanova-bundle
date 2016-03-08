@@ -2,10 +2,11 @@ parameters:
     data_nova.server_url: http://datanova.laposte.fr
     data_nova.api.version: '1.0'
     data_nova.client.timeout: 3.0
+    data_nova.download_dir: '@@LaposteDatanovaBundle/Resources/dataset'
 
 services:
-    data_nova.provider.records:
-        class: Laposte\DatanovaBundle\Provider\Records
+    data_nova.provider.curl_client:
+        class: Laposte\DatanovaBundle\Provider\CurlClient
         arguments:
             - '%data_nova.server_url%'
             - '%data_nova.api.version%'
@@ -13,7 +14,45 @@ services:
             - ['setLogger', ['@?logger']]
             - ['setTimeout', ['%data_nova.client.timeout%']]
 
-    data_nova.service.records.codes_postaux:
-        class: Laposte\DatanovaBundle\Service\Records\CodesPostaux
+    data_nova.service.downloader:
+        class: Laposte\DatanovaBundle\Service\Downloader
         arguments:
-            - '@data_nova.provider.records'
+            - '@data_nova.provider.curl_client'
+            - '@data_nova.service.finder'
+
+    data_nova.service.finder:
+        class: Laposte\DatanovaBundle\Service\Finder
+        arguments:
+            - '@filesystem'
+            - '@file_locator'
+            - '%data_nova.download_dir%'
+        calls:
+            - ['setLogger', ['@?logger']]
+
+    data_nova.command.records.download:
+        class: Laposte\DatanovaBundle\Command\DownloadDatasetCommand
+        arguments:
+            - '@data_nova.service.downloader'
+        tags:
+            -  { name: console.command }
+
+    data_nova.parser.csv:
+        class: Laposte\DatanovaBundle\Service\Parser\CsvParser
+        arguments:
+            - '@data_nova.service.finder'
+
+    data_nova.parser.json:
+        class: Laposte\DatanovaBundle\Service\Parser\JsonParser
+        arguments:
+            - '@data_nova.service.finder'
+
+    data_nova.manager.records:
+        class: Laposte\DatanovaBundle\Manager\RecordsManager
+        arguments:
+            - '@data_nova.provider.curl_client'
+            - '@data_nova.service.downloader'
+            - '@data_nova.service.finder'
+        calls:
+            - ['setLogger', ['@?logger']]
+            - ['addParser', ['@data_nova.parser.csv']]
+            - ['addParser', ['@data_nova.parser.json']]

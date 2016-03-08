@@ -47,8 +47,8 @@ class AppKernel extends Kernel
 }
 ```
 
-Step3: Using proxy API
-----------------------
+Step 3: Using API proxy
+-----------------------
 
 To use the bundle proxy API, import the bundle routing file 
 in the `app/routing.yml` file of your project:

@@ -1,0 +1,62 @@
+<?php
+
+namespace Laposte\DatanovaBundle\Service;
+
+use Laposte\DatanovaBundle\Provider\ClientInterface;
+
+class Downloader
+{
+    /** @var ClientInterface $client */
+    private $client;
+
+    /** @var  Finder $finder */
+    private $finder;
+
+    /**
+     * @param ClientInterface $client
+     * @param Finder $finder
+     */
+    public function __construct(ClientInterface $client, Finder $finder)
+    {
+        $this->client = $client;
+        $this->finder = $finder;
+    }
+
+    /**
+     * @param string $dataset
+     * @param string $format
+     * @param string $filter
+     * @param bool $updateExisting
+     *
+     * @return false|string downloaded file content
+     */
+    public function download($dataset, $format, $filter = null, $updateExisting = false)
+    {
+        $result = false;
+        $parameters = array(
+            'dataset' => $dataset,
+            'format' => $format
+        );
+        if (isset($filter)) {
+            $parameters['q'] = $filter;
+        }
+        $content = $this->client->get('download', $parameters);
+        $save = $this->finder->save($dataset, $content, $format, $filter, $updateExisting);
+        if ($save) {
+            $result = $this->finder->getContent($save);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param string $dataset
+     * @param string $format
+     * @param string $filter
+     * @return false|string
+     */
+    public function findDownload($dataset, $format, $filter = null)
+    {
+        return $this->finder->findDataset($dataset, $format, $filter);
+    }
+}
