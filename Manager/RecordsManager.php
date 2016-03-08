@@ -158,9 +158,13 @@ class RecordsManager
      */
     private function searchDistant(Search $search)
     {
+        $data = array();
         $result = $this->client->get('search', $search->getParameters());
         if ($result) {
             $result = json_decode($result, true);
+            foreach ($result['records'] as $record) {
+                $data[] = $record['fields'];
+            }
         }
 
         return $result;
