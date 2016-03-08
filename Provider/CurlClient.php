@@ -4,13 +4,13 @@ namespace Laposte\DatanovaBundle\Provider;
 use Exception;
 use Psr\Log\LoggerInterface;
 
-class Records
+class CurlClient implements ClientInterface
 {
-    /** Records API endpoint */
-    const API_ENDPOINT = '/api/records';
+    /** @var string */
+    protected $server;
 
     /** @var string */
-    protected $url;
+    protected $version;
 
     /** @var LoggerInterface */
     protected $logger;
@@ -24,11 +24,12 @@ class Records
      */
     public function __construct($server, $apiVersion)
     {
-        $this->url = sprintf('%s%s/%s', $server, self::API_ENDPOINT, $apiVersion);
+        $this->server = $server;
+        $this->version = $apiVersion;
     }
 
     /**
-     * @param float $timeout
+     * {@inheritdoc}
      */
     public function setTimeout($timeout)
     {
@@ -36,9 +37,7 @@ class Records
     }
 
     /**
-     * Set the logger
-     *
-     * @param LoggerInterface $logger
+     * {@inheritdoc}
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -46,18 +45,13 @@ class Records
     }
 
     /**
-     * @param string $operation
-     * @param array $parameters
-     *
-     * @return string
-     *
-     * @throws Exception
+     * {@inheritdoc}
      */
-    public function get($operation, $parameters = array())
+    public function get($operation, $parameters = array(), $data = 'records')
     {
-        $this->debug("Records $operation", $parameters);
+        $this->debug(sprintf('%s %s', $operation, $data), $parameters);
         $result = null;
-        $url = sprintf('%s%s/?%s', $this->url, $operation, http_build_query($parameters));
+        $url = sprintf('/api/%s/%s/?%s', $data, $this->version, $operation, http_build_query($parameters));
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
@@ -77,7 +71,7 @@ class Records
                 if (200 === $status) {
                     $result = $response;
                 } else {
-                    $this->debug('target:  '.$url);
+                    $this->debug('Target url:  ' . $url);
                     $this->logResponseError($status, $response, $parameters);
                 }
             }

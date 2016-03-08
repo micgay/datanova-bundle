@@ -3,7 +3,7 @@
 namespace Laposte\DatanovaBundle\Service\Records;
 
 use Laposte\DatanovaBundle\Model\Records\Search;
-use Laposte\DatanovaBundle\Provider\Records;
+use Laposte\DatanovaBundle\Provider\ClientInterface;
 
 class CodesPostaux
 {
@@ -22,15 +22,15 @@ class CodesPostaux
     /** Mode to return indexed array on search */
     const LIST_MODE = 1;
 
-    /** @var Records */
-    private $provider;
+    /** @var ClientInterface */
+    private $client;
 
     /**
-     * @param Records $provider
+     * @param ClientInterface $client
      */
-    public function __construct(Records $provider)
+    public function __construct(ClientInterface $client)
     {
-        $this->provider = $provider;
+        $this->client = $client;
     }
 
     /**
@@ -45,7 +45,7 @@ class CodesPostaux
         $result = array();
         $parameters = $this->buildParameters($query, $start, $rows);
         $search = new Search(self::DATASET_ID, $parameters);
-        $response = $this->provider->get($search::ENDPOINT, $search->getParameters());
+        $response = $this->client->get($search::ENDPOINT, $search->getParameters());
         if (isset($response)) {
             $result = json_decode($response, true);
         }
