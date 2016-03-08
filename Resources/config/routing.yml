@@ -1,17 +1,18 @@
-data_nova.api.records.laposte_hexasmal.associative:
-    path:     /records/postal-codes/{query}/{start}/{rows}
+data_nova.api.records.search:
+    path:     /records/search/{dataset}/{query}/{sort}/{rows}/{start}
     defaults:
-        _controller: LaposteDatanovaBundle:PostalCodes:searchAssociative
+        _controller: LaposteDatanovaBundle:Records:search
         _format: json
-        query: ''
+        query: null
+        sort: ''
         start: 0
         rows: 10
 
-data_nova.api.records.laposte_hexasmal.cities:
-    path:     /records/cities/{query}/{start}/{rows}
+data_nova.api.records.download:
+    path:     /records/download/{dataset}.{_format}/{query}
     defaults:
-        _controller: LaposteDatanovaBundle:PostalCodes:listCities
+        _controller: LaposteDatanovaBundle:Records:download
         _format: json
         query: ''
-        start: 0
-        rows: 10
+    requirements:
+        _format: json|csv

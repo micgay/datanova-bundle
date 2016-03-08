@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DownloadRecordsCommand extends Command
+class DownloadDatasetCommand extends Command
 {
     /** @var Downloader $downloader */
     private $downloader;
@@ -58,20 +58,27 @@ class DownloadRecordsCommand extends Command
     {
         $dataset = $input->getArgument('dataset');
         $format = strtolower($input->getArgument('format'));
-        $success = $this->downloader->download(
+        $query = $input->getArgument('q');
+        $download = $this->downloader->download(
             $dataset,
             $format,
             $input->getArgument('q'),
             $input->getOption('force-replace')
         );
-        if ($success) {
-            $output->writeln(sprintf('Dataset %s downloaded to %s.', $dataset, $success));
+        $filepath = $this->downloader->findDownload($dataset, $format, $query);
+        if ($download) {
+            $output->writeln(sprintf(
+                'Dataset %s downloaded to "%s" : %d bytes',
+                $dataset,
+                $filepath,
+                filesize($filepath)
+            ));
         } else {
-            if ($this->downloader->exists($dataset, $format)) {
+            if ($filepath) {
                 if (false === $input->getOption('force-replace')) {
                     $output->writeln('Existing data locally. If you want to overwrite it, try with --force-replace option');
                 } else {
-                    $output->writeln('Error during update of local dataset.');
+                    $output->writeln('Error during update of existing dataset.');
                 }
             } else {
                 $output->writeln('Error during dataset download.');

@@ -8,6 +8,7 @@ class Downloader
 {
     /** @var ClientInterface $client */
     private $client;
+
     /** @var  Finder $finder */
     private $finder;
 
@@ -21,8 +22,17 @@ class Downloader
         $this->finder = $finder;
     }
 
+    /**
+     * @param string $dataset
+     * @param string $format
+     * @param string $filter
+     * @param bool $updateExisting
+     *
+     * @return false|string downloaded file content
+     */
     public function download($dataset, $format, $filter = null, $updateExisting = false)
     {
+        $result = false;
         $parameters = array(
             'dataset' => $dataset,
             'format' => $format
@@ -31,18 +41,22 @@ class Downloader
             $parameters['q'] = $filter;
         }
         $content = $this->client->get('download', $parameters);
+        $save = $this->finder->save($dataset, $content, $format, $filter, $updateExisting);
+        if ($save) {
+            $result = $this->finder->getContent($save);
+        }
 
-        return $this->finder->save($dataset, $content, $format, $updateExisting);
+        return $result;
     }
 
     /**
      * @param string $dataset
      * @param string $format
-     *
-     * @return bool
+     * @param string $filter
+     * @return false|string
      */
-    public function exists($dataset, $format)
+    public function findDownload($dataset, $format, $filter = null)
     {
-        return $this->finder->exists($dataset, $format);
+        return $this->finder->findDataset($dataset, $format, $filter);
     }
 }

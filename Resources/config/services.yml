@@ -2,7 +2,7 @@ parameters:
     data_nova.server_url: http://datanova.laposte.fr
     data_nova.api.version: '1.0'
     data_nova.client.timeout: 3.0
-    data_nova.download_dir: 'Resources/dataset/'
+    data_nova.download_dir: '@@LaposteDatanovaBundle/Resources/dataset'
 
 services:
     data_nova.provider.curl_client:
@@ -23,20 +23,36 @@ services:
     data_nova.service.finder:
         class: Laposte\DatanovaBundle\Service\Finder
         arguments:
-            - '@filesystem' #FIXME
-            - '%kernel.root_dir%'
+            - '@filesystem'
+            - '@file_locator'
+            - '%data_nova.download_dir%'
         calls:
             - ['setLogger', ['@?logger']]
-            - ['setWorkingDirectory', ['%data_nova.download_dir%']]
 
     data_nova.command.records.download:
-        class: Laposte\DatanovaBundle\Command\DownloadRecordsCommand
+        class: Laposte\DatanovaBundle\Command\DownloadDatasetCommand
         arguments:
             - '@data_nova.service.downloader'
         tags:
             -  { name: console.command }
 
-    data_nova.service.records.codes_postaux:
-        class: Laposte\DatanovaBundle\Service\Records\CodesPostaux
+    data_nova.parser.csv:
+        class: Laposte\DatanovaBundle\Service\Parser\CsvParser
+        arguments:
+            - '@data_nova.service.finder'
+
+    data_nova.parser.json:
+        class: Laposte\DatanovaBundle\Service\Parser\JsonParser
+        arguments:
+            - '@data_nova.service.finder'
+
+    data_nova.manager.records:
+        class: Laposte\DatanovaBundle\Manager\RecordsManager
         arguments:
             - '@data_nova.provider.curl_client'
+            - '@data_nova.service.downloader'
+            - '@data_nova.service.finder'
+        calls:
+            - ['setLogger', ['@?logger']]
+            - ['addParser', ['@data_nova.parser.csv']]
+            - ['addParser', ['@data_nova.parser.json']]

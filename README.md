@@ -47,7 +47,7 @@ class AppKernel extends Kernel
 }
 ```
 
-Step3: Using proxy API
+Step3: Using API proxy
 ----------------------
 
 To use the bundle proxy API, import the bundle routing file 
