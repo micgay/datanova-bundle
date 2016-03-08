@@ -21,12 +21,12 @@ class Finder
 
     /**
      * @param Filesystem $filesystem
-     * @param string $directory
+     * @param string $rootDir
      */
-    public function __construct(Filesystem $filesystem, $directory = __DIR__)
+    public function __construct(Filesystem $filesystem, $rootDir = __DIR__)
     {
         $this->filesystem = $filesystem;
-        $this->setWorkingDirectory($directory);
+        $this->setWorkingDirectory($rootDir);
     }
 
     /**
@@ -39,16 +39,22 @@ class Finder
 
     /**
      * @param string $directory the working directory for filesystem operations
+     * @param bool $rootRelative
      */
-    public function setWorkingDirectory($directory)
+    public function setWorkingDirectory($directory, $rootRelative = false)
     {
+        $directory = $rootRelative ? $this->directory . DIRECTORY_SEPARATOR . $directory : $directory;
+        $directory = preg_replace('#/+#', '/', $directory); // remove multiple slashes
         $exists = $this->filesystem->exists($directory);
         if (!$exists) {
             try {
                 $this->filesystem->mkdir($directory);
                 $this->logger->notice("Working directory created at " . $directory);
             } catch (IOExceptionInterface $exception) {
-                $this->logger->error("An error occurred while creating your directory at " . $exception->getPath(), $exception->getTrace());
+                $this->logger->error(
+                    "An error occurred while creating your directory at " . $exception->getPath(),
+                    $exception->getTrace()
+                );
             }
         }
         $this->directory = $directory;
@@ -77,7 +83,10 @@ class Finder
      */
     private function getFilePath($dataset, $format)
     {
-        return sprintf('%s%s%s.%s', $this->directory, DIRECTORY_SEPARATOR, $dataset, $format);
+        $filepath = sprintf('%s%s%s.%s', $this->directory, DIRECTORY_SEPARATOR, $dataset, $format);
+        $filepath = preg_replace('#/+#', '/', $filepath); // remove multiple slashes
+
+        return $filepath;
     }
 
     /**
@@ -100,9 +109,13 @@ class Finder
             try {
                 $this->filesystem->dumpFile($path, $content);
                 $this->logger->notice(sprintf('Saving %s dataset at %s', $dataset, $path));
-                $saved = $path;
+                $saved = realpath($path);
+
             } catch (IOExceptionInterface $exception) {
-                $this->logger->error("An error occurred while saving the dataset at " . $exception->getPath(), $exception->getTrace());
+                $this->logger->error(
+                    "An error occurred while saving the dataset at " . $exception->getPath(),
+                    $exception->getTrace()
+                );
             }
         }
 

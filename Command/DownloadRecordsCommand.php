@@ -1,15 +1,14 @@
 <?php
 namespace Laposte\DatanovaBundle\Command;
 
-use Laposte\DatanovaBundle\Provider\Records;
 use Laposte\DatanovaBundle\Service\Downloader;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DownloadRecordsCommand extends ContainerAwareCommand
+class DownloadRecordsCommand extends Command
 {
     /** @var Downloader $downloader */
     private $downloader;
@@ -58,18 +57,18 @@ class DownloadRecordsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dataset = $input->getArgument('dataset');
-        $format = $input->getArgument('format');
+        $format = strtolower($input->getArgument('format'));
         $success = $this->downloader->download(
             $dataset,
             $format,
             $input->getArgument('q'),
-            $input->hasOption('force-replace')
+            $input->getOption('force-replace')
         );
         if ($success) {
-            $output->writeln('Dataset download complete.');
+            $output->writeln(sprintf('Dataset %s downloaded to %s.', $dataset, $success));
         } else {
             if ($this->downloader->exists($dataset, $format)) {
-                if (false === $input->hasOption('force-replace')) {
+                if (false === $input->getOption('force-replace')) {
                     $output->writeln('Existing data locally. If you want to overwrite it, try with --force-replace option');
                 } else {
                     $output->writeln('Error during update of local dataset.');

@@ -51,7 +51,14 @@ class CurlClient implements ClientInterface
     {
         $this->debug(sprintf('%s %s', $operation, $data), $parameters);
         $result = null;
-        $url = sprintf('/api/%s/%s/?%s', $data, $this->version, $operation, http_build_query($parameters));
+        $url = sprintf(
+            '%s/api/%s/%s/%s/?%s',
+            $this->server,
+            $data,
+            $this->version,
+            $operation,
+            http_build_query($parameters)
+        );
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
@@ -63,7 +70,10 @@ class CurlClient implements ClientInterface
         try {
             $response = curl_exec($curl);
             if (!$response) {
-                $this->error('Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl));
+                $this->error(
+                    'Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl). ' - Url: '.$url,
+                    $parameters
+                );
             } else {
                 $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 $time = curl_getinfo($curl, CURLINFO_TOTAL_TIME);

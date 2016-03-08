@@ -24,11 +24,13 @@ services:
         class: Laposte\DatanovaBundle\Service\Finder
         arguments:
             - '@filesystem' #FIXME
+            - '%kernel.root_dir%'
         calls:
             - ['setLogger', ['@?logger']]
+            - ['setWorkingDirectory', ['%data_nova.download_dir%']]
 
     data_nova.command.records.download:
-        class: Laposte\DatanovaBundle\DownloadRecordsCommand
+        class: Laposte\DatanovaBundle\Command\DownloadRecordsCommand
         arguments:
             - '@data_nova.service.downloader'
         tags:
@@ -37,4 +39,4 @@ services:
     data_nova.service.records.codes_postaux:
         class: Laposte\DatanovaBundle\Service\Records\CodesPostaux
         arguments:
-            - '@data_nova.provider.records'
+            - '@data_nova.provider.curl_client'
