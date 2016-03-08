@@ -167,7 +167,7 @@ class RecordsManager
             }
         }
 
-        return $result;
+        return $data;
     }
 
     /**
