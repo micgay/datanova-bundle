@@ -1,5 +1,7 @@
 # DatanovaBundle
 
+[![Build Status](https://travis-ci.org/florianajir/datanova-bundle.svg?branch=master)](https://travis-ci.org/florianajir/datanova-bundle)
+
 Connect your symfony2 project to DataNOVA (La Poste Open Data API)
 
 ## Installation

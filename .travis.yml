@@ -14,4 +14,8 @@ before_script:
     - composer update --prefer-source --dev --no-interaction
 
 script:
-    - bin/phing test
+    - bin/phpunit --coverage-text
+
+notifications:
+  email:
+    - florianajir@gmail.com

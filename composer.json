@@ -21,8 +21,7 @@
     "sebastian/phpcpd": "2.*",
     "phing/phing": "2.*",
     "phpmd/phpmd": "2.*",
-    "phploc/phploc": "2.*",
-    "sami/sami": "^3.2"
+    "phploc/phploc": "2.*"
   },
   "autoload": {
     "psr-4": {
