@@ -74,7 +74,7 @@ class DownloadDatasetLegacyCommand extends ContainerAwareCommand
         } else {
             if ($filepath) {
                 if (false === $input->getOption('force-replace')) {
-                    $output->writeln('Existing data locally. If you want to overwrite it, try with --force-replace option');
+                    $output->writeln('Existing dataset. To overwrite it, try with --force-replace option');
                 } else {
                     $output->writeln('Error during update of existing dataset.');
                 }

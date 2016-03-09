@@ -81,7 +81,7 @@ class Finder
      */
     public function exists($dataset, $format, $filter = null)
     {
-        $uri = $this->getFilePath($dataset, $format);
+        $uri = $this->getFilePath($dataset, $format, $filter);
 
         return $this->filesystem->exists($uri);
     }
