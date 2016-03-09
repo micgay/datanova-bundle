@@ -115,8 +115,8 @@ class RecordsManager
     {
         $sortKey = $search->getSort();
         if (!empty($sortKey)) {
-            $sorter = function($key) {
-                return function($elt1, $elt2) use ($key) {
+            $sorter = function ($key) {
+                return function ($elt1, $elt2) use ($key) {
                     return strnatcmp($elt1[$key], $elt2[$key]);
                 };
             };

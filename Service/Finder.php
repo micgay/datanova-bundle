@@ -134,7 +134,6 @@ class Finder
                 $this->filesystem->dumpFile($path, $content);
                 $this->logger->notice(sprintf('Saving %s dataset at %s', $dataset, $path));
                 $saved = realpath($path);
-
             } catch (IOExceptionInterface $exception) {
                 $this->logger->error(
                     "An error occurred while saving the dataset at " . $exception->getPath(),
