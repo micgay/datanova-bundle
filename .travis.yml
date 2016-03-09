@@ -8,22 +8,18 @@ php:
 
 env:
     - SYMFONY_VERSION=2.3.*
-    - SYMFONY_VERSION=2.4.*
-    - SYMFONY_VERSION=2.5.*
-    - SYMFONY_VERSION=2.6.*
     - SYMFONY_VERSION=2.7.*
     - SYMFONY_VERSION=2.8.*
     - SYMFONY_VERSION=3.0.*
 
 before_script:
-    - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     - composer self-update
     - composer require symfony/framework-bundle:${SYMFONY_VERSION}
-    - composer update --no-interaction --prefer-source
-    - mkdir -p build/logs
+    - composer update --prefer-source --dev --no-interaction
+    - mkdir -p build/logs/
 
 script:
-    - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
+    - bin/phing test -logfile build/logs/phing_$(date +%s).log
 
-after_success:
-    - travis_retry php vendor/bin/coveralls -v
+#after_success:
+#    - travis_retry php vendor/bin/coveralls -v
