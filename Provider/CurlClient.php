@@ -71,7 +71,7 @@ class CurlClient implements ClientInterface
             $response = curl_exec($curl);
             if (!$response) {
                 $this->error(
-                    'Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl). ' - Url: '.$url,
+                    'Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl) . ' - Url: ' . $url,
                     $parameters
                 );
             } else {

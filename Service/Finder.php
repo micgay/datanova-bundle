@@ -147,7 +147,7 @@ class Finder
     }
 
     /**
-     * @param $dataset
+     * @param string $dataset
      * @param string $format
      * @param string $filter
      *
