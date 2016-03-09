@@ -40,6 +40,7 @@ class Downloader
         if (isset($filter)) {
             $parameters['q'] = $filter;
         }
+        $this->client->setTimeout(0);
         $content = $this->client->get('download', $parameters);
         $save = $this->finder->save($dataset, $content, $format, $filter, $updateExisting);
         if ($save) {
