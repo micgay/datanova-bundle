@@ -4,6 +4,9 @@ namespace Laposte\DatanovaBundle\Model;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * @author Florian Ajir <florianajir@gmail.com>
+ */
 abstract class Parameters extends ParameterBag
 {
     /**
@@ -43,9 +46,31 @@ abstract class Parameters extends ParameterBag
     }
 
     /**
+     * @param $lang
+     *
+     * @return self
+     */
+    public function setLang($lang)
+    {
+        $this->set('lang', $lang);
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
-    public function getQueryColumnFilter()
+    public function getLang()
+    {
+        return $this->get('lang');
+    }
+
+    /**
+     * Get column prefix of a query
+     *
+     * @return string
+     */
+    public function getFilterColumn()
     {
         $columnFilter = null;
         $query = $this->parameters['q'];
@@ -64,7 +89,7 @@ abstract class Parameters extends ParameterBag
     /**
      * @return string
      */
-    public function getQueryValueFilter()
+    public function getFilterValue()
     {
         $valueFilter = $query = $this->parameters['q'];
         if (false !== strpos($query, ':')) {

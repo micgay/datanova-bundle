@@ -31,24 +31,4 @@ class Download extends Parameters
     {
         return $this->get('format');
     }
-
-    /**
-     * @param $lang
-     *
-     * @return self
-     */
-    public function setLang($lang)
-    {
-        $this->set('lang', $lang);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLang()
-    {
-        return $this->get('lang');
-    }
 }

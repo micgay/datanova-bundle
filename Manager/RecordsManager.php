@@ -136,8 +136,8 @@ class RecordsManager
     private function searchInArrayData(array $parsed, Search $search)
     {
         $data = array();
-        $query = $search->getQueryValueFilter();
-        $columnSearch = $search->getQueryColumnFilter();
+        $query = $search->getFilterValue();
+        $columnSearch = $search->getFilterColumn();
         foreach ($parsed as $index => $line) {
             if ($search->getStart() > $index) {
                 continue;
