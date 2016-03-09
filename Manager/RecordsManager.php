@@ -115,7 +115,10 @@ class RecordsManager
         $data = array();
         $query = $search->getQueryValueFilter();
         $columnSearch = $search->getQueryColumnFilter();
-        foreach ($parsed as $line) {
+        foreach ($parsed as $index => $line) {
+            if ($search->getStart() > $index) {
+                continue;
+            }
             if (empty($query)) {
                 $data[] = $line;
             } else {
@@ -131,6 +134,9 @@ class RecordsManager
                         }
                     }
                 }
+            }
+            if ($search->getRows() == count($data)) {
+                break;
             }
         }
 

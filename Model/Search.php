@@ -97,6 +97,14 @@ class Search
     }
 
     /**
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->parameters['start'];
+    }
+
+    /**
      * @param int $rows
      *
      * @return self
@@ -106,6 +114,14 @@ class Search
         $this->parameters['rows'] = $rows;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRows()
+    {
+        return $this->parameters['rows'];
     }
 
     /**
