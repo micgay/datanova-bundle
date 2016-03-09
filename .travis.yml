@@ -16,6 +16,7 @@ env:
     - SYMFONY_VERSION=3.0.*
 
 before_script:
+    - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     - composer self-update
     - composer require symfony/framework-bundle:${SYMFONY_VERSION}
     - composer update --no-interaction --prefer-source
