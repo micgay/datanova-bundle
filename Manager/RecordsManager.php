@@ -96,12 +96,35 @@ class RecordsManager
             $parsed = $parser->parse($search->getDataset());
             if ($parsed) {
                 $result = $this->searchInArrayData($parsed, $search);
+                $this->sortLocalData($result, $search);
                 $this->log('debug', sprintf('Local dataset %s found', $search->getDataset()), $search->getParameters());
                 break;
             }
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $parsed
+     * @param Search $search
+     *
+     * @return array
+     */
+    private function sortLocalData(array $parsed, Search $search)
+    {
+        $sortKey = $search->getSort();
+        if (!empty($sortKey)) {
+            $sorter = function ($key) {
+                return function ($elt1, $elt2) use ($key) {
+                    return strnatcmp($elt1[$key], $elt2[$key]);
+                };
+            };
+
+            usort($parsed, $sorter($sortKey));
+        }
+
+        return $parsed;
     }
 
     /**

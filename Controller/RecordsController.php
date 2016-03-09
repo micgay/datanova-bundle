@@ -12,17 +12,19 @@ class RecordsController extends Controller
     /**
      * @param string $dataset
      * @param string $query
-     * @param int $start
+     * @param string $sort
      * @param int $rows
+     * @param int $start
      *
      * @return Response
      */
-    public function searchAction($dataset, $query, $start, $rows)
+    public function searchAction($dataset, $query, $sort, $rows, $start)
     {
         $search = new Search($dataset);
         $search
             ->setQuery($query)
             ->setStart($start)
+            ->setSort($sort)
             ->setRows($rows);
         $results = $this->search($search);
 

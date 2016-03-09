@@ -125,6 +125,26 @@ class Search
     }
 
     /**
+     * @param string $sort
+     *
+     * @return self
+     */
+    public function setSort($sort)
+    {
+        $this->parameters['sort'] = $sort;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->parameters['sort'];
+    }
+
+    /**
      * @return array
      */
     public function getParameters()

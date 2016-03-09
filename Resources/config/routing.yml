@@ -5,8 +5,8 @@ data_nova.api.records.search:
         _format: json
         query: null
         sort: ''
-        start: 0
         rows: 10
+        start: 0
 
 data_nova.api.records.download:
     path:     /records/download/{dataset}.{_format}/{query}
