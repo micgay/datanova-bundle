@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @author Florian Ajir <florianajir@gmail.com>
+ */
 class DownloadDatasetCommand extends Command
 {
     /** @var Downloader $downloader */
@@ -25,7 +28,7 @@ class DownloadDatasetCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('datanova:download:records')
+            ->setName('datanova:download:dataset')
             ->setDescription('Download dataset records to use it locally')
             ->addArgument(
                 'dataset',

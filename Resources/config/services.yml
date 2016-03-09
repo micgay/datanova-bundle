@@ -1,5 +1,5 @@
 parameters:
-    data_nova.server_url: http://datanova.laposte.fr
+    data_nova.server_url: 'http://datanova.laposte.fr'
     data_nova.api.version: '1.0'
     data_nova.client.timeout: 3.0
     data_nova.download_dir: '@@LaposteDatanovaBundle/Resources/dataset'
@@ -29,7 +29,7 @@ services:
         calls:
             - ['setLogger', ['@?logger']]
 
-    data_nova.command.records.download:
+    data_nova.command.download.dataset:
         class: Laposte\DatanovaBundle\Command\DownloadDatasetCommand
         arguments:
             - '@data_nova.service.downloader'

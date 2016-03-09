@@ -4,7 +4,7 @@
 
 ```shellScript
 Usage:
-  datanova:download:records [options] [--] <dataset> [<format>] [<q>]
+  datanova:download:dataset [options] [--] <dataset> [<format>] [<q>]
 
 Arguments:
   dataset               Which dataset to download?
