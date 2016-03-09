@@ -1,6 +1,8 @@
 # DatanovaBundle
 
-[![Build Status](https://travis-ci.org/florianajir/datanova-bundle.svg?branch=master)](https://travis-ci.org/florianajir/datanova-bundle)
+[![Build Status](https://travis-ci.org/florianajir/datanova-bundle.svg?branch=master)](https://travis-ci.org/florianajir/datanova-bundle) [![Code Coverage](https://scrutinizer-ci.com/g/florianajir/datanova-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/florianajir/datanova-bundle/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/florianajir/datanova-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/florianajir/datanova-bundle/?branch=master)
+
+[![Latest Stable Version](https://poser.pugx.org/florianajir/datanova-bundle/v/stable)](https://packagist.org/packages/florianajir/datanova-bundle) [![Total Downloads](https://poser.pugx.org/florianajir/datanova-bundle/downloads)](https://packagist.org/packages/florianajir/datanova-bundle) [![Latest Unstable Version](https://poser.pugx.org/florianajir/datanova-bundle/v/unstable)](https://packagist.org/packages/florianajir/datanova-bundle) [![License](https://poser.pugx.org/florianajir/datanova-bundle/license)](https://packagist.org/packages/florianajir/datanova-bundle)
 
 Connect your symfony2 project to DataNOVA (La Poste Open Data API)
 
