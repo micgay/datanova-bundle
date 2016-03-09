@@ -123,7 +123,7 @@ class RecordsManager
                 $data[] = $line;
             } else {
                 if (!empty($columnSearch)) {
-                    if (false !== strpos($line[$columnSearch], $query)) {
+                    if ($query == $line[$columnSearch]) {
                         $data[] = $line;
                     }
                 } else {
