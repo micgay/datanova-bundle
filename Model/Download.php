@@ -2,22 +2,18 @@
 
 namespace Laposte\DatanovaBundle\Model;
 
-class Download
+class Download extends Parameters
 {
-    /**
-     * @var array
-     */
-    private $parameters;
-
     /**
      * @param string $dataset (mandatory) datasetid
      * @param string $format
      */
     public function __construct($dataset, $format)
     {
-        $this->parameters = array();
-        $this->parameters['dataset'] = $dataset;
-        $this->parameters['format'] = $format;
+        $parameters = array();
+        $parameters['dataset'] = $dataset;
+        $parameters['format'] = $format;
+        parent::__construct($parameters);
     }
 
     /**
@@ -25,7 +21,7 @@ class Download
      */
     public function getDataset()
     {
-        return $this->parameters['dataset'];
+        return $this->get('dataset');
     }
 
     /**
@@ -33,31 +29,26 @@ class Download
      */
     public function getFormat()
     {
-        return $this->parameters['format'];
+        return $this->get('format');
     }
 
     /**
-     * @return string $query
+     * @param $lang
+     *
+     * @return self
      */
-    public function getFilter()
+    public function setLang($lang)
     {
-        return $this->parameters['q'];
-    }
+        $this->set('lang', $lang);
 
-
-    /**
-     * @param string $query
-     */
-    public function setFilter($query)
-    {
-        $this->parameters['q'] = $query;
+        return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getParameters()
+    public function getLang()
     {
-        return $this->parameters;
+        return $this->get('lang');
     }
 }

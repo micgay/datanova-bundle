@@ -22,7 +22,7 @@ class RecordsController extends Controller
     {
         $search = new Search($dataset);
         $search
-            ->setQuery($query)
+            ->setFilter($query)
             ->setStart($start)
             ->setSort($sort)
             ->setRows($rows);

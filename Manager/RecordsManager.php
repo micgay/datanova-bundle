@@ -228,7 +228,7 @@ class RecordsManager
             $download->getFormat(),
             $download->getFilter()
         );
-        if ($filepath) {
+        if (false !== $filepath) {
             $content = $this->finder->getContent($filepath);
         }
 

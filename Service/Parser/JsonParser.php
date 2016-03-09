@@ -31,9 +31,9 @@ class JsonParser implements ParserInterface
     {
         $data = false;
         $path = $this->finder->findDataset($dataset, self::FORMAT);
-        if ($path) {
+        if (false !== $path) {
             $content = $this->finder->getContent($path);
-            if ($content) {
+            if (null !== $content) {
                 $data = $this->getFieldsFromContent($content);
             }
         }

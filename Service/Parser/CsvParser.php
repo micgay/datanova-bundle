@@ -35,7 +35,7 @@ class CsvParser implements ParserInterface
     {
         $data = false;
         $path = $this->finder->findDataset($dataset, self::FORMAT);
-        if ($path) {
+        if (false !== $path) {
             $data = array();
             $lines = file($path);
             $columns = str_getcsv($lines[0], $delimiter);

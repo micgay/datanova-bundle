@@ -2,21 +2,16 @@
 
 namespace Laposte\DatanovaBundle\Model;
 
-class Search
+class Search extends Parameters
 {
     /**
-     * @var array
-     */
-    private $parameters;
-
-    /**
      * @param string $dataset (mandatory) datasetid
-     * @param array $parameters if empty, all dataset records will be returned
      */
-    public function __construct($dataset, $parameters = array())
+    public function __construct($dataset)
     {
-        $this->parameters = $parameters;
-        $this->parameters['dataset'] = $dataset;
+        $parameters = array();
+        $parameters['dataset'] = $dataset;
+        parent::__construct($parameters);
     }
 
     /**
@@ -24,64 +19,7 @@ class Search
      */
     public function getDataset()
     {
-        return $this->parameters['dataset'];
-    }
-
-    /**
-     * @param string $query
-     *
-     * @return self
-     */
-    public function setQuery($query)
-    {
-        $this->parameters['q'] = $query;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->parameters['q'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getQueryColumnFilter()
-    {
-        $columnFilter = null;
-        $query = $this->parameters['q'];
-        if (false !== strpos($query, ':')) {
-            $explode = explode(':', $query);
-        } elseif (false !== strpos($query, '=')) {
-            $explode = explode('=', $query);
-        }
-        if (isset($explode[0])) {
-            $columnFilter = $explode[0];
-        }
-
-        return $columnFilter;
-    }
-
-    /**
-     * @return string
-     */
-    public function getQueryValueFilter()
-    {
-        $valueFilter = $query = $this->parameters['q'];
-        if (false !== strpos($query, ':')) {
-            $explode = explode(':', $query);
-        } elseif (false !== strpos($query, '=')) {
-            $explode = explode('=', $query);
-        }
-        if (isset($explode[1])) {
-            $valueFilter = $explode[1];
-        }
-
-        return $valueFilter;
+        return $this->get('dataset');
     }
 
     /**
@@ -91,7 +29,7 @@ class Search
      */
     public function setStart($start)
     {
-        $this->parameters['start'] = $start;
+        $this->set('start', $start);
 
         return $this;
     }
@@ -101,7 +39,7 @@ class Search
      */
     public function getStart()
     {
-        return $this->parameters['start'];
+        return $this->get('start', 0);
     }
 
     /**
@@ -111,7 +49,7 @@ class Search
      */
     public function setRows($rows)
     {
-        $this->parameters['rows'] = $rows;
+        $this->set('rows', $rows);
 
         return $this;
     }
@@ -121,7 +59,7 @@ class Search
      */
     public function getRows()
     {
-        return $this->parameters['rows'];
+        return $this->get('rows', 10);
     }
 
     /**
@@ -131,7 +69,7 @@ class Search
      */
     public function setSort($sort)
     {
-        $this->parameters['sort'] = $sort;
+        $this->set('sort', $sort);
 
         return $this;
     }
@@ -141,14 +79,6 @@ class Search
      */
     public function getSort()
     {
-        return $this->parameters['sort'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
+        return $this->get('sort');
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * Symfony 2.3 ContainerAwareCommand version of DownloadDatasetCommand
  * @author Florian Ajir <florianajir@gmail.com>
  */
 class DownloadDatasetLegacyCommand extends ContainerAwareCommand
@@ -72,7 +73,7 @@ class DownloadDatasetLegacyCommand extends ContainerAwareCommand
                 filesize($filepath)
             ));
         } else {
-            if ($filepath) {
+            if (false !== $filepath) {
                 if (false === $input->getOption('force-replace')) {
                     $output->writeln('Existing dataset. To overwrite it, try with --force-replace option');
                 } else {

@@ -77,7 +77,7 @@ class DownloadDatasetCommand extends Command
                 filesize($filepath)
             ));
         } else {
-            if ($filepath) {
+            if (false !== $filepath) {
                 if (false === $input->getOption('force-replace')) {
                     $output->writeln('Existing dataset. To overwrite it, try with --force-replace option');
                 } else {
