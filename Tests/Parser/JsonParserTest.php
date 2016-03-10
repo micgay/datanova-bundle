@@ -10,22 +10,13 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
     {
         $dataset = 'laposte_hexasmal';
         $path = dirname(__FILE__) . '/Fixtures/laposte_hexasmal.json';
-        $finder = $this->getFinderMock();
-        $finder->expects($this->once())
-            ->method('findDataset')
-            ->with($dataset, JsonParser::FORMAT)
-            ->willReturn($path);
-        $finder->expects($this->once())
-            ->method('getContent')
-            ->with($path)
-            ->willReturn(file_get_contents($path));
+        $finder = $this->getFinderMock($dataset, $path);
 
         $jsonParser = new JsonParser($finder);
-
         $result = $jsonParser->parse($dataset);
+
         $this->assertNotFalse($result);
         $this->assertCount(15, $result);
-
         $this->assertArrayHasKey('code_commune_insee', $result[0]);
         $this->assertArrayHasKey('nom_de_la_commune', $result[0]);
         $this->assertArrayHasKey('code_postal', $result[0]);
@@ -37,12 +28,26 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $dataset
+     * @param string $path
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject|\Laposte\DatanovaBundle\Service\Finder
      */
-    private function getFinderMock()
+    private function getFinderMock($dataset, $path)
     {
-        return $this->getMockBuilder('Laposte\DatanovaBundle\Service\Finder')
+        $finder = $this->getMockBuilder('Laposte\DatanovaBundle\Service\Finder')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $finder->expects($this->once())
+            ->method('findDataset')
+            ->with($dataset, JsonParser::FORMAT)
+            ->willReturn($path);
+        $finder->expects($this->once())
+            ->method('getContent')
+            ->with($path)
+            ->willReturn(file_get_contents($path));
+
+        return $finder;
     }
 }

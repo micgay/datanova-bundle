@@ -33,7 +33,10 @@ class Finder
     {
         $this->filesystem = $filesystem;
         $this->locator = $locator;
-        $rootDir = $this->locator->locate($rootDir);
+        $rootDir = $this->locator->locate($rootDir, null, true);
+        if (false === is_string($rootDir)) {
+            throw new \InvalidArgumentException('Unexpected root dir type');
+        }
         $this->setWorkingDirectory($rootDir);
     }
 

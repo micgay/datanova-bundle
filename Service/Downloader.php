@@ -43,7 +43,7 @@ class Downloader
         $this->client->setTimeout(0);
         $content = $this->client->get('download', $parameters);
         $save = $this->finder->save($dataset, $content, $format, $filter, $updateExisting);
-        if ($save) {
+        if (false !== $save) {
             $result = $this->finder->getContent($save);
         }
 

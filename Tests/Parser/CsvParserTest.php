@@ -9,16 +9,11 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
     public function testParseCsvFixture()
     {
         $dataset = 'laposte_hexasmal';
-        $path = dirname(__FILE__) . '/Fixtures/laposte_hexasmal.csv';
-        $finder = $this->getFinderMock();
-        $finder->expects($this->once())
-            ->method('findDataset')
-            ->with($dataset, CsvParser::FORMAT)
-            ->willReturn($path);
+        $finder = $this->getFinderMock($dataset, dirname(__FILE__) . '/Fixtures/laposte_hexasmal.csv');
 
         $csvParser = new CsvParser($finder);
-
         $result = $csvParser->parse($dataset);
+
         $this->assertNotFalse($result);
         $this->assertCount(15, $result);
         $this->assertArrayHasKey('code_commune_insee', $result[0]);
@@ -34,12 +29,21 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $dataset
+     * @param string $path
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject|\Laposte\DatanovaBundle\Service\Finder
      */
-    private function getFinderMock()
+    private function getFinderMock($dataset, $path)
     {
-        return $this->getMockBuilder('Laposte\DatanovaBundle\Service\Finder')
+        $mock = $this->getMockBuilder('Laposte\DatanovaBundle\Service\Finder')
             ->disableOriginalConstructor()
             ->getMock();
+        $mock->expects($this->once())
+            ->method('findDataset')
+            ->with($dataset, CsvParser::FORMAT)
+            ->willReturn($path);
+
+        return $mock;
     }
 }
