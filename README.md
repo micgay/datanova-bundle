@@ -56,7 +56,7 @@ in the `app/routing.yml` file of your project:
 ```yml
 data_nova:
     resource: "@LaposteDatanovaBundle/Resources/config/routing.yml"
-    prefix:   /api
+    prefix:   /datanova
 ```
 
 ### Step 4: Enjoy!
@@ -65,15 +65,38 @@ data_nova:
 
 ```
 /records/search/{dataset}/{query}/{sort}/{rows}/{start} 
-# Example: /records/search/laposte_hexasmal/code_postal:34000/code_postal/20/0
 ```
+
+` Example: http://{localhost}/datanova/records/search/laposte_hexasmal/code_postal:34000/nom_de_la_commune `
+` Example: http://{localhost}/datanova/records/search/laposte_hexasmal/paris/code_postal/10/10 `
 
 #### Download records
 
 ```
 /records/download/{dataset}.{_format}/{query} 
-# Example: /records/download/laposte_hexasmal.json
-# Example: /records/download/laposte_hexasmal.csv/974
 ```
 
-> You can use embedded `datanova:download:dataset` command to cache dataset and furtherly search in for better web performances. More details in [dataset download command documentation](Resources/dataset/README.md).
+` Example: http://{localhost}/datanova/records/download/laposte_hexasmal.json `
+` Example: http://{localhost}/datanova/records/download/laposte_hexasmal.csv/974 `
+
+
+#### Download dataset (server cache)
+
+To improve search performances, use the `data_nova:download:dataset` command to cache dataset for better web search performances. More details in [dataset download command documentation](Resources/dataset/README.md).
+
+```bash
+# /bin/bash
+php bin/console datanova:download:dataset -h
+Usage:
+  datanova:download:dataset [options] [--] <dataset> [<format>] [<q>]
+
+Arguments:
+  dataset               Which dataset to download?
+  format                Data file format : CSV (default), JSON [default: "CSV"]
+  q                     query filter, by default all results will be download
+
+Options:
+  -f, --force-replace   If set, the command will replace local storage
+```
+
+`Example: php app/console datanova:legacy:download:dataset laposte_hexasmal json -f`
