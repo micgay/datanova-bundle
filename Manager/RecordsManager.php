@@ -137,26 +137,13 @@ class RecordsManager
     {
         $data = array();
         $query = $search->getFilterValue();
-        $columnSearch = $search->getFilterColumn();
+        $column = $search->getFilterColumn();
         foreach ($parsed as $index => $line) {
             if ($search->getStart() > $index) {
                 continue;
             }
-            if (empty($query)) {
+            if (empty($query) || $this->matchToSearch($query, $column, $line)) {
                 $data[] = $line;
-            } else {
-                if (!empty($columnSearch)) {
-                    if (array_key_exists($columnSearch, $line) && $query == $line[$columnSearch]) {
-                        $data[] = $line;
-                    }
-                } else {
-                    foreach ($line as $value) {
-                        if (false !== strpos($value, $query)) {
-                            $data[] = $line;
-                            break;
-                        }
-                    }
-                }
             }
             if ($search->getRows() == count($data)) {
                 break;
@@ -164,6 +151,31 @@ class RecordsManager
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $query
+     * @param string $column
+     * @param array $line
+     * @return bool
+     */
+    private function matchToSearch($query, $column, $line)
+    {
+        $match = false;
+        if (!empty($column)) {
+            if (array_key_exists($column, $line) && $query == $line[$column]) {
+                $match = true;
+            }
+        } else {
+            foreach ($line as $value) {
+                if (false !== strpos($value, $query)) {
+                    $match = true;
+                    break;
+                }
+            }
+        }
+
+        return $match;
     }
 
     /**
