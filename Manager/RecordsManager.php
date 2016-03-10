@@ -175,7 +175,7 @@ class RecordsManager
      *
      * @return array
      */
-    private function sortLocalData(array $parsed, Search $search)
+    private function sortLocalData(array &$parsed, Search $search)
     {
         $sortKey = $search->getSort();
         if (!empty($sortKey)) {
