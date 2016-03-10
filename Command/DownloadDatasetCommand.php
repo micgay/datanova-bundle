@@ -1,30 +1,21 @@
 <?php
 namespace Laposte\DatanovaBundle\Command;
 
-use Laposte\DatanovaBundle\Service\Downloader;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * Symfony 2.3 ContainerAwareCommand version of DownloadDatasetCommand
  * @author Florian Ajir <florianajir@gmail.com>
  */
-class DownloadDatasetCommand extends Command
+class DownloadDatasetCommand extends ContainerAwareCommand
 {
-    /** @var Downloader $downloader */
-    private $downloader;
-
     /**
-     * @param Downloader $downloader
+     * Command configuration
      */
-    public function __construct(Downloader $downloader)
-    {
-        $this->downloader = $downloader;
-        parent::__construct();
-    }
-
     protected function configure()
     {
         $this
@@ -59,16 +50,17 @@ class DownloadDatasetCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $downloader = $this->getContainer()->get('data_nova.service.downloader');
         $dataset = $input->getArgument('dataset');
         $format = strtolower($input->getArgument('format'));
         $query = $input->getArgument('q');
-        $download = $this->downloader->download(
+        $download = $downloader->download(
             $dataset,
             $format,
             $input->getArgument('q'),
             $input->getOption('force-replace')
         );
-        $filepath = $this->downloader->findDownload($dataset, $format, $query);
+        $filepath = $downloader->findDownload($dataset, $format, $query);
         if ($download) {
             $output->writeln(sprintf(
                 'Dataset %s downloaded to "%s" : %d bytes',

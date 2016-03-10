@@ -6,22 +6,9 @@ php:
   - '5.6'
   - '7.0'
 
-env:
-  - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.7.*
-  - SYMFONY_VERSION=2.8.*
-  - SYMFONY_VERSION=3.0.*
-
-matrix:
-  exclude:
-    - php: 5.3
-      env: SYMFONY_VERSION=3.0.*
-    - php: 5.4
-      env: SYMFONY_VERSION=3.0.*
-
 before_script:
     - composer self-update
-    - composer require symfony/framework-bundle:${SYMFONY_VERSION} --prefer-source --no-update  --no-interaction
+    - composer require symfony/framework-bundle:2.3.* --prefer-source --no-update  --no-interaction
     - composer update --prefer-source --dev --no-interaction
 
 script:
