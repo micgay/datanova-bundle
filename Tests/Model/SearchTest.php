@@ -39,21 +39,18 @@ class SearchTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryFilter()
     {
-        $dataset = uniqid();
-        $search = new Search($dataset);
-        $search->setFilter('column:value');
-        $this->assertEquals('column:value', $search->getFilter());
-        $this->assertEquals('column', $search->getFilterColumn());
-        $this->assertEquals('value', $search->getFilterValue());
+        $this->createQueryColumnFilterSearch(uniqid(), uniqid(), ':');
+        $this->createQueryColumnFilterSearch(uniqid(), uniqid(), '=');
     }
 
-    public function testQueryFilterWithEqual()
+    private function createQueryColumnFilterSearch($column, $value, $delimiter = ':')
     {
+        $filter = sprintf('%s%s%s', $column, $delimiter, $value);
         $dataset = uniqid();
         $search = new Search($dataset);
-        $search->setFilter('column=value');
-        $this->assertEquals('column=value', $search->getFilter());
-        $this->assertEquals('column', $search->getFilterColumn());
-        $this->assertEquals('value', $search->getFilterValue());
+        $search->setFilter($filter);
+        $this->assertEquals($filter, $search->getFilter());
+        $this->assertEquals($column, $search->getFilterColumn());
+        $this->assertEquals($value, $search->getFilterValue());
     }
 }
