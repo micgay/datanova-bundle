@@ -13,5 +13,6 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         $download = new Download($dataset, $format);
         $this->assertEquals($dataset, $download->getDataset());
         $this->assertEquals($format, $download->getFormat());
+        $this->assertCount(2, $download->getParameters());
     }
 }

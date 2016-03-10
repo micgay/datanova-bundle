@@ -2,7 +2,7 @@
 
 namespace Laposte\DatanovaBundle\Service;
 
-use Laposte\DatanovaBundle\Provider\ClientInterface;
+use Laposte\DatanovaBundle\Client\ClientInterface;
 
 class Downloader
 {

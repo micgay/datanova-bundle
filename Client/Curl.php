@@ -1,10 +1,10 @@
 <?php
-namespace Laposte\DatanovaBundle\Provider;
+namespace Laposte\DatanovaBundle\Client;
 
 use Exception;
 use Psr\Log\LoggerInterface;
 
-class CurlClient implements ClientInterface
+class Curl implements ClientInterface
 {
     /** @var string */
     protected $server;

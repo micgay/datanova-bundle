@@ -4,10 +4,10 @@ namespace Laposte\DatanovaBundle\Manager;
 
 use Laposte\DatanovaBundle\Model\Download;
 use Laposte\DatanovaBundle\Model\Search;
-use Laposte\DatanovaBundle\Provider\ClientInterface;
+use Laposte\DatanovaBundle\Client\ClientInterface;
 use Laposte\DatanovaBundle\Service\Downloader;
 use Laposte\DatanovaBundle\Service\Finder;
-use Laposte\DatanovaBundle\Service\Parser\ParserInterface;
+use Laposte\DatanovaBundle\Parser\ParserInterface;
 use Psr\Log\LoggerInterface;
 
 class RecordsManager

@@ -5,8 +5,8 @@ parameters:
     data_nova.download_dir: '@@LaposteDatanovaBundle/Resources/dataset'
 
 services:
-    data_nova.provider.curl_client:
-        class: Laposte\DatanovaBundle\Provider\CurlClient
+    data_nova.client.curl_client:
+        class: Laposte\DatanovaBundle\Client\Curl
         arguments:
             - '%data_nova.server_url%'
             - '%data_nova.api.version%'
@@ -17,7 +17,7 @@ services:
     data_nova.service.downloader:
         class: Laposte\DatanovaBundle\Service\Downloader
         arguments:
-            - '@data_nova.provider.curl_client'
+            - '@data_nova.client.curl_client'
             - '@data_nova.service.finder'
 
     data_nova.service.finder:
@@ -37,19 +37,19 @@ services:
             -  { name: console.command }
 
     data_nova.parser.csv:
-        class: Laposte\DatanovaBundle\Service\Parser\CsvParser
+        class: Laposte\DatanovaBundle\Parser\CsvParser
         arguments:
             - '@data_nova.service.finder'
 
     data_nova.parser.json:
-        class: Laposte\DatanovaBundle\Service\Parser\JsonParser
+        class: Laposte\DatanovaBundle\Parser\JsonParser
         arguments:
             - '@data_nova.service.finder'
 
     data_nova.manager.records:
         class: Laposte\DatanovaBundle\Manager\RecordsManager
         arguments:
-            - '@data_nova.provider.curl_client'
+            - '@data_nova.client.curl_client'
             - '@data_nova.service.downloader'
             - '@data_nova.service.finder'
         calls:
