@@ -106,6 +106,70 @@ class RecordsManager
     }
 
     /**
+     * @param string $level
+     * @param string $message
+     * @param array $context
+     */
+    private function log($level, $message, $context = array())
+    {
+        if ($this->logger) {
+            $this->logger->log($level, $message, $context);
+        }
+    }
+
+    /**
+     * @param array $parsed
+     * @param Search $search
+     *
+     * @return array
+     */
+    private function searchInArrayData(array $parsed, Search $search)
+    {
+        $data = array();
+        foreach ($parsed as $index => $line) {
+            if ($search->getStart() > $index) {
+                continue;
+            }
+            if ($this->matchToSearch($search, $line)) {
+                $data[] = $line;
+            }
+            if ($search->getRows() == count($data)) {
+                break;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param Search $search
+     * @param array $line
+     *
+     * @return bool
+     */
+    private function matchToSearch(Search $search, $line)
+    {
+        $match = false;
+        if (null !== $search->getFilter()) {
+            $column = $search->getFilterColumn();
+            if (!empty($column)) {
+                if (array_key_exists($column, $line) && $search->getFilterValue() == $line[$column]) {
+                    $match = true;
+                }
+            } else {
+                foreach ($line as $value) {
+                    if (false !== strpos($value, $search->getFilterValue())) {
+                        $match = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $match;
+    }
+
+    /**
      * @param array $parsed
      * @param Search $search
      *
@@ -125,69 +189,6 @@ class RecordsManager
         }
 
         return $parsed;
-    }
-
-    /**
-     * @param array $parsed
-     * @param Search $search
-     *
-     * @return array
-     */
-    private function searchInArrayData(array $parsed, Search $search)
-    {
-        $data = array();
-        $query = $search->getFilterValue();
-        $column = $search->getFilterColumn();
-        foreach ($parsed as $index => $line) {
-            if ($search->getStart() > $index) {
-                continue;
-            }
-            if (empty($query) || $this->matchToSearch($query, $column, $line)) {
-                $data[] = $line;
-            }
-            if ($search->getRows() == count($data)) {
-                break;
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param string $query
-     * @param string $column
-     * @param array $line
-     * @return bool
-     */
-    private function matchToSearch($query, $column, $line)
-    {
-        $match = false;
-        if (!empty($column)) {
-            if (array_key_exists($column, $line) && $query == $line[$column]) {
-                $match = true;
-            }
-        } else {
-            foreach ($line as $value) {
-                if (false !== strpos($value, $query)) {
-                    $match = true;
-                    break;
-                }
-            }
-        }
-
-        return $match;
-    }
-
-    /**
-     * @param string $level
-     * @param string $message
-     * @param array $context
-     */
-    private function log($level, $message, $context = array())
-    {
-        if ($this->logger) {
-            $this->logger->log($level, $message, $context);
-        }
     }
 
     /**
