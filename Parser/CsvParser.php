@@ -38,7 +38,7 @@ class CsvParser implements ParserInterface
         if (false !== $path) {
             $data = array();
             $lines = file($path);
-            $columns = str_getcsv($lines[0], $delimiter);
+            $columns = str_getcsv(strtolower($lines[0]), $delimiter);
             unset($lines[0]);
             foreach ($lines as $line) {
                 $lineValues = str_getcsv($line, $delimiter);

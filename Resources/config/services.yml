@@ -54,5 +54,5 @@ services:
             - '@data_nova.service.finder'
         calls:
             - ['setLogger', ['@?logger']]
-            - ['addParser', ['@data_nova.parser.csv']]
             - ['addParser', ['@data_nova.parser.json']]
+            - ['addParser', ['@data_nova.parser.csv']]

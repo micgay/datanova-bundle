@@ -1,0 +1,45 @@
+<?php
+
+namespace Laposte\DatanovaBundle\Tests\Model;
+
+use Laposte\DatanovaBundle\Parser\CsvParser;
+
+class CsvParserTest extends \PHPUnit_Framework_TestCase
+{
+    public function testParseCsvFixture()
+    {
+        $dataset = 'laposte_hexasmal';
+        $path = dirname(__FILE__) . '/Fixtures/laposte_hexasmal.csv';
+        $finder = $this->getFinderMock();
+        $finder->expects($this->once())
+            ->method('findDataset')
+            ->with($dataset, CsvParser::FORMAT)
+            ->willReturn($path);
+
+        $csvParser = new CsvParser($finder);
+
+        $result = $csvParser->parse($dataset);
+        $this->assertNotFalse($result);
+        $this->assertCount(15, $result);
+        $this->assertArrayHasKey('code_commune_insee', $result[0]);
+        $this->assertArrayHasKey('nom_commune', $result[0]);
+        $this->assertArrayHasKey('code_postal', $result[0]);
+        $this->assertArrayHasKey('libelle_acheminement', $result[0]);
+        $this->assertArrayHasKey('ligne_5', $result[0]);
+        $this->assertEquals('57077', $result[0]['code_commune_insee']);
+        $this->assertEquals('BEZANGE LA PETITE', $result[0]['nom_commune']);
+        $this->assertEquals('57630', $result[0]['code_postal']);
+        $this->assertEquals('BEZANGE LA PETITE', $result[0]['libelle_acheminement']);
+        $this->assertEquals('', $result[0]['ligne_5']);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Laposte\DatanovaBundle\Service\Finder
+     */
+    private function getFinderMock()
+    {
+        return $this->getMockBuilder('Laposte\DatanovaBundle\Service\Finder')
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+}

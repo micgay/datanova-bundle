@@ -44,8 +44,8 @@ class RecordsController extends Controller
         $download = new Download($dataset, $_format);
         $download->setFilter($query);
         $local = $this->getLocalDataset($download);
-        if ($local) {
-            $results = $this->getLocalDataset($download);
+        if (null !== $local) {
+            $results = $local;
         } else {
             $results = $this->download($download);
         }
@@ -93,7 +93,7 @@ class RecordsController extends Controller
     /**
      * @param Download $download
      *
-     * @return array
+     * @return null|string
      */
     private function getLocalDataset(Download $download)
     {

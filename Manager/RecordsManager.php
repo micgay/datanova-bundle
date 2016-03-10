@@ -146,7 +146,7 @@ class RecordsManager
                 $data[] = $line;
             } else {
                 if (!empty($columnSearch)) {
-                    if ($query == $line[$columnSearch]) {
+                    if (array_key_exists($columnSearch, $line) && $query == $line[$columnSearch]) {
                         $data[] = $line;
                     }
                 } else {

@@ -72,18 +72,31 @@ abstract class Parameters extends ParameterBag
      */
     public function getFilterColumn()
     {
-        $columnFilter = null;
-        $query = $this->parameters['q'];
-        if (false !== strpos($query, ':')) {
-            $explode = explode(':', $query);
-        } elseif (false !== strpos($query, '=')) {
-            $explode = explode('=', $query);
-        }
-        if (isset($explode[0])) {
-            $columnFilter = $explode[0];
+        $column = null;
+        $filterAssoc = $this->explodeFilter();
+        if (isset($filterAssoc[0])) {
+            $column = $filterAssoc[0];
         }
 
-        return $columnFilter;
+        return $column;
+    }
+
+    /**
+     * @return array
+     */
+    protected function explodeFilter()
+    {
+        $explode = array();
+        $query = $this->get('q');
+        if (null !== $query) {
+            if (false !== strpos($query, ':')) {
+                $explode = explode(':', $query);
+            } elseif (false !== strpos($query, '=')) {
+                $explode = explode('=', $query);
+            }
+        }
+
+        return $explode;
     }
 
     /**
@@ -91,16 +104,12 @@ abstract class Parameters extends ParameterBag
      */
     public function getFilterValue()
     {
-        $valueFilter = $query = $this->parameters['q'];
-        if (false !== strpos($query, ':')) {
-            $explode = explode(':', $query);
-        } elseif (false !== strpos($query, '=')) {
-            $explode = explode('=', $query);
-        }
-        if (isset($explode[1])) {
-            $valueFilter = $explode[1];
+        $value = null;
+        $filterAssoc = $this->explodeFilter();
+        if (isset($filterAssoc[1])) {
+            $value = $filterAssoc[1];
         }
 
-        return $valueFilter;
+        return $value;
     }
 }

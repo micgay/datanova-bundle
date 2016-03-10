@@ -1,0 +1,169 @@
+[
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "ee4e4b4dfb7b284a9f2d7c1782a2c94f3369e48a",
+    "fields": {
+      "nom_de_la_commune": "BEZANGE LA PETITE",
+      "libell_d_acheminement": "BEZANGE LA PETITE",
+      "code_postal": "57630",
+      "code_commune_insee": "57077"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "7dccacddfeef522effd9f7a54a37fabcb04c2ae0",
+    "fields": {
+      "nom_de_la_commune": "BELLES FORETS",
+      "libell_d_acheminement": "BELLES FORETS",
+      "code_postal": "57930",
+      "ligne_5": "ANGVILLER LES BISPING",
+      "code_commune_insee": "57086"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "186526e549c8cc4381f80bbc706c0cc7a381d92b",
+    "fields": {
+      "nom_de_la_commune": "BITCHE",
+      "libell_d_acheminement": "BITCHE",
+      "code_postal": "57230",
+      "code_commune_insee": "57089"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "51fc805eda8303809cab792cde2b9406718abf4b",
+    "fields": {
+      "nom_de_la_commune": "BOULANGE",
+      "libell_d_acheminement": "BOULANGE",
+      "code_postal": "57655",
+      "code_commune_insee": "57096"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "8b3dde7c01efb0b3d8f0f088860ab1b351a2593c",
+    "fields": {
+      "nom_de_la_commune": "BOULAY MOSELLE",
+      "libell_d_acheminement": "BOULAY",
+      "code_postal": "57220",
+      "ligne_5": "HALLING LES BOULAY",
+      "code_commune_insee": "57097"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "cb75027e291b240f65a38b72dc0372e9ebb8c046",
+    "fields": {
+      "nom_de_la_commune": "BOUSSEVILLER",
+      "libell_d_acheminement": "BOUSSEVILLER",
+      "code_postal": "57230",
+      "code_commune_insee": "57103"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "a8d5aed36bae6e06101bc4d91a26c61bd523bfdd",
+    "fields": {
+      "nom_de_la_commune": "BRETTNACH",
+      "libell_d_acheminement": "BRETTNACH",
+      "code_postal": "57320",
+      "code_commune_insee": "57110"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "802c8417909ff54971b812e92769293e0bf1d436",
+    "fields": {
+      "nom_de_la_commune": "CAPPEL",
+      "libell_d_acheminement": "CAPPEL",
+      "code_postal": "57450",
+      "code_commune_insee": "57122"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "e0aed2d627c81eb7f5ad08b9489fd37656cb1fa2",
+    "fields": {
+      "nom_de_la_commune": "CHAMBREY",
+      "libell_d_acheminement": "CHAMBREY",
+      "code_postal": "57170",
+      "code_commune_insee": "57126"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "8b52dd663fd8881fedc0b6e78239f60414e092d1",
+    "fields": {
+      "nom_de_la_commune": "CHATEAU SALINS",
+      "libell_d_acheminement": "CHATEAU SALINS",
+      "code_postal": "57170",
+      "code_commune_insee": "57132"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "3c5d103691144a705708966f4e44b54a8ed4cd44",
+    "fields": {
+      "nom_de_la_commune": "CHATEAU VOUE",
+      "libell_d_acheminement": "CHATEAU VOUE",
+      "code_postal": "57170",
+      "code_commune_insee": "57133"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "a4d2ab9321a39577d078eee8e500816b81ae5e2c",
+    "fields": {
+      "nom_de_la_commune": "CHATEL ST GERMAIN",
+      "libell_d_acheminement": "CHATEL ST GERMAIN",
+      "code_postal": "57160",
+      "code_commune_insee": "57134"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "bb50747c296522a45da34295dc77ba94a47dc480",
+    "fields": {
+      "nom_de_la_commune": "CLOUANGE",
+      "libell_d_acheminement": "CLOUANGE",
+      "code_postal": "57185",
+      "code_commune_insee": "57143"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "bb50747c296522a45da34295dc77ba94a47dc480",
+    "fields": {
+      "nom_de_la_commune": "CONTZ LES BAINS",
+      "libell_d_acheminement": "CONTZ LES BAINS",
+      "code_postal": "57480",
+      "code_commune_insee": "57152"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  },
+  {
+    "datasetid": "laposte_hexasmal",
+    "recordid": "bb50747c296522a45da34295dc77ba94a47dc480",
+    "fields": {
+      "nom_de_la_commune": "CREUTZWALD",
+      "libell_d_acheminement": "CREUTZWALD",
+      "code_postal": "57150",
+      "code_commune_insee": "57160"
+    },
+    "record_timestamp": "2016-03-02T14:28:27+01:00"
+  }
+]
