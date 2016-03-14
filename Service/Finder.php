@@ -4,7 +4,7 @@ namespace Laposte\DatanovaBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Finder
@@ -49,25 +49,36 @@ class Finder
     }
 
     /**
-     * @param string $directory the working directory for filesystem operations
+     * @param string $path the working directory for filesystem operations
+     *
+     * @throws \InvalidArgumentException
+     * @throws IOException
      */
-    public function setWorkingDirectory($directory)
+    public function setWorkingDirectory($path)
     {
-        $directory = preg_replace('#/+#', '/', $directory); // remove multiple slashes
+        $directory = preg_replace('#/+#', '/', $path); // remove multiple slashes
         try {
             $directory = $this->locator->locate($directory);
-        } catch (\Exception $exception) {
+            if (false === is_string($directory)) {
+                $directory = strval(reset($directory));
+                $this->logger->alert(
+                    sprintf('Ambiguous filename %s, choosing %s', $path, $directory)
+                );
+            }
+        } catch (\InvalidArgumentException $exception) {
+            // continue to check if dir exists even if locator doesn't locate
         }
         $exists = $this->filesystem->exists($directory);
         if (!$exists) {
             try {
                 $this->filesystem->mkdir($directory);
                 $this->logger->notice("Working directory created at " . $directory);
-            } catch (IOExceptionInterface $exception) {
+            } catch (IOException $exception) {
                 $this->logger->error(
-                    "An error occurred while creating your directory at " . $exception->getPath(),
+                    "An error occurred while creating directory at " . $exception->getPath(),
                     $exception->getTrace()
                 );
+                throw $exception;
             }
         }
         $this->directory = $directory;
@@ -137,7 +148,7 @@ class Finder
                 $this->filesystem->dumpFile($path, $content);
                 $this->logger->notice(sprintf('Saving %s dataset at %s', $dataset, $path));
                 $saved = realpath($path);
-            } catch (IOExceptionInterface $exception) {
+            } catch (IOException $exception) {
                 $this->logger->error(
                     "An error occurred while saving the dataset at " . $exception->getPath(),
                     $exception->getTrace()
