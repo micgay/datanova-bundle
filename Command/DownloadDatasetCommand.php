@@ -2,29 +2,25 @@
 namespace Laposte\DatanovaBundle\Command;
 
 use Laposte\DatanovaBundle\Service\Downloader;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * Symfony 2.3+ DownloadDatasetCommand
+ *
  * @author Florian Ajir <florianajir@gmail.com>
  */
-class DownloadDatasetCommand extends Command
+class DownloadDatasetCommand extends ContainerAwareCommand
 {
     /** @var Downloader $downloader */
     private $downloader;
 
     /**
-     * @param Downloader $downloader
+     * Command configuration
      */
-    public function __construct(Downloader $downloader)
-    {
-        $this->downloader = $downloader;
-        parent::__construct();
-    }
-
     protected function configure()
     {
         $this
@@ -59,6 +55,7 @@ class DownloadDatasetCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->downloader = $this->getContainer()->get('data_nova.service.downloader');
         $dataset = $input->getArgument('dataset');
         $format = strtolower($input->getArgument('format'));
         $query = $input->getArgument('q');

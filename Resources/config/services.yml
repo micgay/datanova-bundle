@@ -29,13 +29,6 @@ services:
         calls:
             - ['setLogger', ['@?logger']]
 
-    data_nova.command.download.dataset:
-        class: Laposte\DatanovaBundle\Command\DownloadDatasetCommand
-        arguments:
-            - '@data_nova.service.downloader'
-        tags:
-            -  { name: console.command }
-
     data_nova.parser.csv:
         class: Laposte\DatanovaBundle\Parser\CsvParser
         arguments:

@@ -26,9 +26,3 @@ Options:
 Help:
  Download dataset records to use it locally
 ```
-
-### Legacy command (Symfony < 2.4)
-
-```
-datanova:legacy:download:dataset
-```

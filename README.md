@@ -99,4 +99,4 @@ Options:
   -f, --force-replace   If set, the command will replace local storage
 ```
 
-`Example: php app/console datanova:legacy:download:dataset laposte_hexasmal json -f`
+`Example: php app/console datanova:download:dataset laposte_hexasmal json -f`
