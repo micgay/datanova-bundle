@@ -104,7 +104,7 @@ abstract class Parameters extends ParameterBag
      */
     public function getFilterValue()
     {
-        $value = null;
+        $value = $this->get('q');
         $filterAssoc = $this->explodeFilter();
         if (isset($filterAssoc[1])) {
             $value = $filterAssoc[1];

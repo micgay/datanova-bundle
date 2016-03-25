@@ -97,7 +97,15 @@ class RecordsManager
             if ($parsed) {
                 $result = $this->searchInArrayData($parsed, $search);
                 $this->sortLocalData($result, $search);
-                $this->log('debug', sprintf('Local dataset %s found', $search->getDataset()), $search->getParameters());
+                $this->log(
+                    'debug',
+                    sprintf(
+                        'Local dataset %s found (%s)',
+                        $search->getDataset(),
+                        get_class($parser)
+                    ),
+                    $search->getParameters()
+                );
                 break;
             }
         }
@@ -152,18 +160,42 @@ class RecordsManager
         $match = false;
         if (null !== $search->getFilter()) {
             $column = $search->getFilterColumn();
+            $value = $search->getFilterValue();
             if (!empty($column)) {
-                if (array_key_exists($column, $line) && $search->getFilterValue() == $line[$column]) {
+                if (array_key_exists($column, $line) && $value == $line[$column]) {
                     $match = true;
                 }
             } else {
-                foreach ($line as $value) {
-                    if (false !== strpos($value, $search->getFilterValue())) {
+                foreach ($line as $data) {
+                    if ($this->isLike($data, $value)) {
                         $match = true;
                         break;
                     }
                 }
             }
+        } else {
+            $match = true;
+        }
+
+        return $match;
+    }
+
+    /**
+     * @param string $data
+     * @param string $term
+     * @param bool $sensitive
+     *
+     * @return bool
+     */
+    private function isLike($data, $term, $sensitive = false)
+    {
+        $match = false;
+        if (false === $sensitive) {
+            $term = strtolower($term);
+            $data = strtolower($data);
+        }
+        if (false !== strpos($data, $term)) {
+            $match = true;
         }
 
         return $match;
