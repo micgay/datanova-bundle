@@ -2,7 +2,7 @@
 
 namespace Fmaj\LaposteDatanovaBundle\Tests;
 
-use Fmaj\LaposteDatanovaBundle\LaposteDatanovaBundle;
+use Fmaj\LaposteDatanovaBundle\FmajLaposteDatanovaBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
