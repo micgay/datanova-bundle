@@ -40,6 +40,7 @@ services:
             - '@data_nova.service.finder'
 
     data_nova.manager.records:
+        public: true
         class: Laposte\DatanovaBundle\Manager\RecordsManager
         arguments:
             - '@data_nova.client.curl_client'
