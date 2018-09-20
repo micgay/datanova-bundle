@@ -28,6 +28,11 @@
       "Laposte\\DatanovaBundle\\": ""
     }
   },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.3.4"
+    }
+  },
   "config": {
     "bin-dir": "bin"
   }
