@@ -15,6 +15,7 @@ services:
             - ['setTimeout', ['%data_nova.client.timeout%']]
 
     data_nova.service.downloader:
+        public: true
         class: Laposte\DatanovaBundle\Service\Downloader
         arguments:
             - '@data_nova.client.curl_client'
